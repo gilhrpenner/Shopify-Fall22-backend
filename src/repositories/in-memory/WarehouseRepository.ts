@@ -1,48 +1,69 @@
-import { IWarehouseEntity } from '@entities/Warehouse';
-import { ICreateWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
+import { IWarehouseEntity, Warehouse } from '@entities/Warehouse';
+import { IUpsertWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
 import { IWarehouseRepository } from '@repositories/IWarehouseRepository';
 import { v4 as uuid } from 'uuid';
 
-export class WarehouseRepository implements IWarehouseRepository {
-    private warehouses: IWarehouseEntity[] = [];
+import { AppError } from '@shared/errors/AppError';
 
-    create(warehouse: ICreateWarehouseRequestDTO): Promise<IWarehouseEntity> {
+const memoryWarehouses: IWarehouseEntity[] = [];
+export class WarehouseRepository implements IWarehouseRepository {
+    create(warehouse: IUpsertWarehouseRequestDTO): Promise<Warehouse> {
         const newWarehouse: IWarehouseEntity = {
             id: uuid(),
             ...warehouse,
         };
 
-        this.warehouses.push(newWarehouse);
+        memoryWarehouses.push(newWarehouse);
         return Promise.resolve(newWarehouse);
     }
 
-    findById(id: string): Promise<IWarehouseEntity> {
-        const warehouse = this.warehouses.find(
+    update(
+        id: string,
+        warehouseData: IUpsertWarehouseRequestDTO
+    ): Promise<Warehouse> {
+        const warehouseIndex = memoryWarehouses.findIndex(
+            (warehouse) => warehouse.id === id
+        );
+
+        if (warehouseIndex === -1) {
+            return Promise.reject(new AppError('Warehouse not found', 400));
+        }
+
+        memoryWarehouses[warehouseIndex] = {
+            ...memoryWarehouses[warehouseIndex],
+            ...warehouseData,
+        };
+
+        return Promise.resolve(memoryWarehouses[warehouseIndex]);
+    }
+
+    findById(id: string): Promise<Warehouse> {
+        const warehouse = memoryWarehouses.find(
             (warehouse) => warehouse.id === id
         );
 
         return Promise.resolve(warehouse);
     }
 
-    getAll(): Promise<IWarehouseEntity[]> {
-        return Promise.resolve(this.warehouses);
+    getAll(): Promise<Warehouse[]> {
+        return Promise.resolve(memoryWarehouses);
     }
 
-    findByName(name: string): Promise<IWarehouseEntity[]> {
+    findByName(name: string): Promise<Warehouse[]> {
         const names = name.toLowerCase().split(' ');
-        const warehouses = this.warehouses.filter((warehouse) =>
+        const warehouses = memoryWarehouses.filter((warehouse) =>
             names.every((name) => warehouse.name.toLowerCase().includes(name))
         );
 
         return Promise.resolve(warehouses);
     }
 
-    findByPostalCode(postalCode: string): Promise<IWarehouseEntity[]> {
+    findByPostalCode(postalCode: string): Promise<Warehouse[]> {
         const postalCodeCleaned = postalCode
             .replace(/\s/g, '')
             .toLocaleLowerCase();
 
-        const warehouses = this.warehouses.filter(
+        const warehouses = memoryWarehouses.filter(
             (warehouse) =>
                 warehouse.address.postalCode
                     .replace(/\s/g, '')

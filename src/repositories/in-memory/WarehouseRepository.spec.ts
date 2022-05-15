@@ -1,49 +1,14 @@
 import 'reflect-metadata';
 import { IWarehouseRepository } from '@repositories/IWarehouseRepository';
 
+import { AppError } from '@shared/errors/AppError';
+import {
+    firstWarehouse,
+    secondWarehouse,
+    thirdWarehouse,
+} from '@shared/utils/common.jest';
+
 import { WarehouseRepository } from './WarehouseRepository';
-
-const firstWarehouse = {
-    name: 'Winnipeg Warehouse and Distribution',
-    address: {
-        street: '630 Kernaghan Ave',
-        city: 'Winnipeg',
-        province: 'Manitoba',
-        postalCode: 'R2C 5G1',
-    },
-    aisles: {
-        rows: 10,
-        binsPerRow: 50,
-    },
-};
-
-const secondWarehouse = {
-    name: 'Crone Warehouse Sereices',
-    address: {
-        street: '1830 Dublin Ave',
-        city: 'Winnipeg',
-        province: 'Manitoba',
-        postalCode: 'R3H 0H3',
-    },
-    aisles: {
-        rows: 20,
-        binsPerRow: 40,
-    },
-};
-
-const thirdWarehouse = {
-    name: 'Winnipeg Kitpak Warehouse',
-    address: {
-        street: '1615 Rd 64 N',
-        city: 'Winnipeg',
-        province: 'Manitoba',
-        postalCode: 'R2X 1R2',
-    },
-    aisles: {
-        rows: 10,
-        binsPerRow: 80,
-    },
-};
 
 describe('Test warehouse repository in memory', () => {
     let warehouseRepository: IWarehouseRepository;
@@ -112,5 +77,31 @@ describe('Test warehouse repository in memory', () => {
 
         expect(warehouseFound).toBeInstanceOf(Array);
         expect(warehouseFound).toHaveLength(1);
+    });
+
+    it('should update a warehouse name', async () => {
+        const warehouse = await warehouseRepository.findByName(
+            firstWarehouse.name
+        );
+
+        const updatedWarehouse = await warehouseRepository.update(
+            warehouse[0].id,
+            {
+                ...firstWarehouse,
+                name: `${firstWarehouse.name} - updated!`,
+            }
+        );
+
+        expect(updatedWarehouse).toBeInstanceOf(Object);
+        expect(updatedWarehouse.name).toBe(`${firstWarehouse.name} - updated!`);
+    });
+
+    it('should not update a warehouse name, warehouse does not exists', async () => {
+        await expect(
+            warehouseRepository.update('id-does-not-exists', {
+                ...firstWarehouse,
+                name: `${firstWarehouse.name} - updated!`,
+            })
+        ).rejects.toEqual(new AppError('Warehouse not found', 400));
     });
 });

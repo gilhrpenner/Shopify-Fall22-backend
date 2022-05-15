@@ -8,17 +8,23 @@ import { upsertWarehouseValidation } from '@shared/validations/warehouse.validat
 import { IUpsertWarehouseRequestDTO } from '../warehouseDTO';
 
 @autoInjectable()
-export class CreateWarehouseService {
+export class UpdateWarehouseService {
     constructor(private warehouseRepository: WarehouseRepository) {}
 
-    async execute(payload: IUpsertWarehouseRequestDTO): Promise<Warehouse> {
+    async execute(
+        id: string,
+        payload: IUpsertWarehouseRequestDTO
+    ): Promise<Warehouse> {
         const { error: invalidInput } = upsertWarehouseValidation(payload);
         if (invalidInput) {
             throw new AppError(invalidInput.details[0].message, 422);
         }
 
-        // If we had an account system or something better than just an address,
-        // we would check if the warehouse already exists.
-        return this.warehouseRepository.create(payload);
+        const warehouse = await this.warehouseRepository.findById(id);
+        if (!warehouse) {
+            throw new AppError('Warehouse not found', 404);
+        }
+
+        return this.warehouseRepository.update(id, payload);
     }
 }

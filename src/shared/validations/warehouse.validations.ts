@@ -1,8 +1,8 @@
-import { ICreateWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
+import { IUpsertWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
 import Joi from 'joi';
 
-export const createWarehouseValidation = (
-    payload: ICreateWarehouseRequestDTO
+export const upsertWarehouseValidation = (
+    payload: IUpsertWarehouseRequestDTO
 ): Joi.ValidationResult => {
     const schema = Joi.object({
         name: Joi.string().required(),
