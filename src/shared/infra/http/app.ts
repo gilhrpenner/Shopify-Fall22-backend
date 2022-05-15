@@ -12,6 +12,7 @@ const httpServer = createServer(app);
 
 app.use(helmet());
 app.use(hpp());
+app.use(express.json({ limit: '10mb' }));
 
 app.use(router);
 
