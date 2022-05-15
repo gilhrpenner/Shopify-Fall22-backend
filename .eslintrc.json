@@ -103,7 +103,17 @@
                 }
             }
         ],
-        "new-cap": 0
+        "new-cap": 0,
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ]
     },
     "settings": {
         "import/resolver": {

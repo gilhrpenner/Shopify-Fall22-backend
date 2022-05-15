@@ -5,12 +5,15 @@ import hpp from 'hpp';
 import { createServer } from 'http';
 
 import { AppError } from '@shared/errors/AppError';
+import { router } from '@shared/infra/http/routes';
 
 const app = express();
 const httpServer = createServer(app);
 
 app.use(helmet());
 app.use(hpp());
+
+app.use(router);
 
 app.use((req: Request, res: Response) => {
     return res.status(404).json({
