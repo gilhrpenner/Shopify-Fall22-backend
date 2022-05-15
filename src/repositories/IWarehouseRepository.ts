@@ -1,10 +1,15 @@
-import { IWarehouseEntity, Warehouse } from '@entities/Warehouse';
-import { ICreateWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
+import { Warehouse } from '@entities/Warehouse';
+import { IUpsertWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
 
 export interface IWarehouseRepository {
-    create(warehouse: ICreateWarehouseRequestDTO): Promise<Warehouse>;
-    findById(id: string): Promise<IWarehouseEntity>;
-    getAll(): Promise<IWarehouseEntity[]>;
-    findByName(name: string): Promise<IWarehouseEntity[]>;
-    findByPostalCode(postalCode: string): Promise<IWarehouseEntity[]>;
+    create(warehouse: IUpsertWarehouseRequestDTO): Promise<Warehouse>;
+    update(
+        id: string,
+        warehouseData: IUpsertWarehouseRequestDTO
+    ): Promise<Warehouse>;
+
+    findById(id: string): Promise<Warehouse>;
+    getAll(): Promise<Warehouse[]>;
+    findByName(name: string): Promise<Warehouse[]>;
+    findByPostalCode(postalCode: string): Promise<Warehouse[]>;
 }

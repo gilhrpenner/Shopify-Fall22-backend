@@ -1,3 +1,3 @@
 import { IWarehouseEntity } from '@entities/Warehouse';
 
-export type ICreateWarehouseRequestDTO = Omit<IWarehouseEntity, 'id'>;
+export type IUpsertWarehouseRequestDTO = Omit<IWarehouseEntity, 'id'>;

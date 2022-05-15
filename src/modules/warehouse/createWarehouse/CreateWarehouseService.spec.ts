@@ -1,23 +1,10 @@
 import { WarehouseRepository } from '@repositories/in-memory/WarehouseRepository';
 
 import { AppError } from '@shared/errors/AppError';
+import { firstWarehouse } from '@shared/utils/common.jest';
 
 import 'reflect-metadata';
 import { CreateWarehouseService } from './CreateWarehouseService';
-
-const firstWarehouse = {
-    name: 'Winnipeg Warehouse and Distribution',
-    address: {
-        street: '630 Kernaghan Ave',
-        city: 'Winnipeg',
-        province: 'Manitoba',
-        postalCode: 'R2C 5G1',
-    },
-    aisles: {
-        rows: 10,
-        binsPerRow: 50,
-    },
-};
 
 describe('Test warehouse creation', () => {
     let warehouseRepository: WarehouseRepository;
