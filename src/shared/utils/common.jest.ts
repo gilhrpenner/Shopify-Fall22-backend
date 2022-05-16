@@ -39,3 +39,29 @@ export const thirdWarehouse = {
         binsPerRow: 80,
     },
 };
+
+export const firstProduct = {
+    barcode: '1234567890123',
+    sku: 'KSRUFTT',
+    name: 'Old Spice Arctic Force deodorant', // first thing I saw on my table, don't judge me lol
+    description:
+        'Despite the name it does not smell like old spice, it is actually quite good',
+    quantity: 10000,
+};
+
+export const secondProduct = {
+    barcode: '1234567890124',
+    sku: 'KS944UR',
+    name: 'Old Spice Bearglove Anti-perspirante',
+    description:
+        'Lifesaver and actually does the job super well in preventing perspiration',
+    quantity: 7000,
+};
+
+export const thirdProduct = {
+    barcode: '1234567890125',
+    sku: 'TS15896',
+    name: 'Gatorade Zero 28 pack',
+    description: 'Zero sugar per bottle, I love the pink flavour',
+    quantity: 2500,
+};
