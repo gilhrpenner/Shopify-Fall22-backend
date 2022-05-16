@@ -7,9 +7,10 @@ export interface IWarehouseRepository {
         id: string,
         warehouseData: IUpsertWarehouseRequestDTO
     ): Promise<Warehouse>;
+    delete(id: string): Promise<void>;
 
     findById(id: string): Promise<Warehouse>;
-    getAll(): Promise<Warehouse[]>;
+    findAll(): Promise<Warehouse[]>;
     findByName(name: string): Promise<Warehouse[]>;
     findByPostalCode(postalCode: string): Promise<Warehouse[]>;
 }

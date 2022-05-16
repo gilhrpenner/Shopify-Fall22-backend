@@ -9,7 +9,11 @@ export class UpdateWarehouseController {
 
     async handle(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        const response = await this.updateWarehouseService.execute(id, req.body);
+        const response = await this.updateWarehouseService.execute(
+            id,
+            req.body
+        );
+
         return res.json(response);
     }
 }

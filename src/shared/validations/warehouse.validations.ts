@@ -1,6 +1,8 @@
 import { IUpsertWarehouseRequestDTO } from '@modules/warehouse/warehouseDTO';
 import Joi from 'joi';
 
+import { uuidv4Pattern } from './shared.patterns';
+
 export const upsertWarehouseValidation = (
     payload: IUpsertWarehouseRequestDTO
 ): Joi.ValidationResult => {
@@ -19,4 +21,8 @@ export const upsertWarehouseValidation = (
     });
 
     return schema.validate(payload);
+};
+
+export const deleteWarehouseValidation = (id: string): Joi.ValidationResult => {
+    return uuidv4Pattern.validate(id);
 };

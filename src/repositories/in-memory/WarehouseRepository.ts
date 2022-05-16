@@ -37,6 +37,20 @@ export class WarehouseRepository implements IWarehouseRepository {
         return Promise.resolve(memoryWarehouses[warehouseIndex]);
     }
 
+    delete(id: string): Promise<void> {
+        const warehouseIndex = memoryWarehouses.findIndex(
+            (warehouse) => warehouse.id === id
+        );
+
+        if (warehouseIndex === -1) {
+            return Promise.reject(new AppError('Warehouse not found', 400));
+        }
+
+        memoryWarehouses.splice(warehouseIndex, 1);
+
+        return Promise.resolve();
+    }
+
     findById(id: string): Promise<Warehouse> {
         const warehouse = memoryWarehouses.find(
             (warehouse) => warehouse.id === id
@@ -45,7 +59,7 @@ export class WarehouseRepository implements IWarehouseRepository {
         return Promise.resolve(warehouse);
     }
 
-    getAll(): Promise<Warehouse[]> {
+    findAll(): Promise<Warehouse[]> {
         return Promise.resolve(memoryWarehouses);
     }
 

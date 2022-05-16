@@ -39,7 +39,7 @@ describe('Test warehouse repository in memory', () => {
     });
 
     it('should get all warehouses', async () => {
-        const warehouses = await warehouseRepository.getAll();
+        const warehouses = await warehouseRepository.findAll();
 
         expect(warehouses).toBeInstanceOf(Array);
         expect(warehouses).toHaveLength(2);
@@ -102,6 +102,27 @@ describe('Test warehouse repository in memory', () => {
                 ...firstWarehouse,
                 name: `${firstWarehouse.name} - updated!`,
             })
+        ).rejects.toEqual(new AppError('Warehouse not found', 400));
+    });
+
+    it('should delete a warehouse', async () => {
+        const warehouse = await warehouseRepository.create(secondWarehouse);
+
+        const warehouses = await warehouseRepository.findAll();
+        const countWarehouses = warehouses.length;
+
+        await warehouseRepository.delete(warehouse.id);
+        const warehouseFound = await warehouseRepository.findById(warehouse.id);
+
+        expect(warehouseFound).toBeUndefined();
+        expect(await warehouseRepository.findAll()).toHaveLength(
+            countWarehouses - 1
+        );
+    });
+
+    it('should not delete a warehouse, warehouse does not exists', async () => {
+        await expect(
+            warehouseRepository.delete('id-does-not-exists')
         ).rejects.toEqual(new AppError('Warehouse not found', 400));
     });
 });
