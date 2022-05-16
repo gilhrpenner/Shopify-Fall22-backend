@@ -67,9 +67,6 @@ export class ProductRepository implements IProductRepository {
 
     findByBarcode(barcode: string): Promise<Product> {
         const productIndex = this.findProductIndex(barcode);
-        if (productIndex === -1) {
-            return Promise.reject(new AppError('Product not found'));
-        }
 
         return Promise.resolve(memoryProducts[productIndex]);
     }

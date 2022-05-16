@@ -70,9 +70,10 @@ describe('Test product repository in memory', () => {
 
         await productRepository.delete(product.barcode);
 
-        await expect(
-            productRepository.findByBarcode(product.barcode)
-        ).rejects.toEqual(new AppError('Product not found'));
+        const productNotFound = await productRepository.findByBarcode(
+            product.barcode
+        );
+        expect(productNotFound).toBeUndefined();
 
         expect(await productRepository.findAll()).toHaveLength(
             countProducts - 1
@@ -124,9 +125,8 @@ describe('Test product repository in memory', () => {
     });
 
     it('should not find a product by barcode, product does not exists', async () => {
-        await expect(
-            productRepository.findByBarcode('id-does-not-exists')
-        ).rejects.toEqual(new AppError('Product not found'));
+        const product = await productRepository.findByBarcode('123456789');
+        expect(product).toBeUndefined();
     });
 
     it('should find all products', async () => {
