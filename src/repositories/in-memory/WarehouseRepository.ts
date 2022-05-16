@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { AppError } from '@shared/errors/AppError';
 
 const memoryWarehouses: IWarehouseEntity[] = [];
+
 export class WarehouseRepository implements IWarehouseRepository {
     create(warehouse: IUpsertWarehouseRequestDTO): Promise<Warehouse> {
         const newWarehouse: IWarehouseEntity = {
@@ -26,7 +27,7 @@ export class WarehouseRepository implements IWarehouseRepository {
         );
 
         if (warehouseIndex === -1) {
-            return Promise.reject(new AppError('Warehouse not found', 400));
+            return Promise.reject(new AppError('Warehouse not found'));
         }
 
         memoryWarehouses[warehouseIndex] = {
@@ -43,7 +44,7 @@ export class WarehouseRepository implements IWarehouseRepository {
         );
 
         if (warehouseIndex === -1) {
-            return Promise.reject(new AppError('Warehouse not found', 400));
+            return Promise.reject(new AppError('Warehouse not found'));
         }
 
         memoryWarehouses.splice(warehouseIndex, 1);

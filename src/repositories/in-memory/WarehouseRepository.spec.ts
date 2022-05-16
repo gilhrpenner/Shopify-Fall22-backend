@@ -102,7 +102,7 @@ describe('Test warehouse repository in memory', () => {
                 ...firstWarehouse,
                 name: `${firstWarehouse.name} - updated!`,
             })
-        ).rejects.toEqual(new AppError('Warehouse not found', 400));
+        ).rejects.toEqual(new AppError('Warehouse not found'));
     });
 
     it('should delete a warehouse', async () => {
@@ -123,6 +123,6 @@ describe('Test warehouse repository in memory', () => {
     it('should not delete a warehouse, warehouse does not exists', async () => {
         await expect(
             warehouseRepository.delete('id-does-not-exists')
-        ).rejects.toEqual(new AppError('Warehouse not found', 400));
+        ).rejects.toEqual(new AppError('Warehouse not found'));
     });
 });
