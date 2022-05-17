@@ -31,6 +31,39 @@ describe('Test product repository in memory', () => {
         );
     });
 
+    // this is going to be the first test so I can add 3 products, delete 2 and
+    // compare if it deleted as intended, then I delete the last one and all
+    // other tests will happen as intended
+    it('should delete firstProduct and thirdProduct', async () => {
+        await productRepository.create(firstProduct);
+        await productRepository.create(secondProduct);
+        await productRepository.create(thirdProduct);
+
+        const products = await productRepository.findAll();
+        const countProducts = products.length;
+
+        await productRepository.delete([
+            firstProduct.barcode,
+            thirdProduct.barcode,
+        ]);
+
+        const firstNotFound = await productRepository.findByBarcode(
+            firstProduct.barcode
+        );
+        expect(firstNotFound).toBeUndefined();
+
+        const thirdNotFound = await productRepository.findByBarcode(
+            thirdProduct.barcode
+        );
+        expect(thirdNotFound).toBeUndefined();
+
+        expect(await productRepository.findAll()).toHaveLength(
+            countProducts - 2
+        );
+
+        await productRepository.delete([secondProduct.barcode]);
+    });
+
     it('should create a product', async () => {
         const product = await productRepository.create(firstProduct);
 
@@ -68,7 +101,7 @@ describe('Test product repository in memory', () => {
         const products = await productRepository.findAll();
         const countProducts = products.length;
 
-        await productRepository.delete(product.barcode);
+        await productRepository.delete([product.barcode]);
 
         const productNotFound = await productRepository.findByBarcode(
             product.barcode
@@ -81,9 +114,8 @@ describe('Test product repository in memory', () => {
     });
 
     it('should not delete a product, product does not exists', async () => {
-        await expect(
-            productRepository.delete('id-does-not-exists')
-        ).rejects.toEqual(new AppError('Product not found'));
+        const result = await productRepository.delete(['id-does-not-exists']);
+        expect(result.productsDeleted).toBe(0);
     });
 
     it('should assign a location to a product', async () => {

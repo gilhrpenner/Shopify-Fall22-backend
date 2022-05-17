@@ -6,3 +6,11 @@ export interface IUpdateProductQuantityRequestDTO {
     barcode: string;
     quantity: number;
 }
+
+export interface IDeleteProductRequestDTO {
+    barcodes: string[];
+}
+
+export interface IDeletedProductDTO {
+    productsDeleted: number;
+}
