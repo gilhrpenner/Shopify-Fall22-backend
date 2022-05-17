@@ -1,5 +1,5 @@
 import { IProductLocation, Product } from '@entities/Product';
-import { IUpsertProductRequestDTO } from '@modules/product/productDTO';
+import { ICreateProductRequestDTO } from '@modules/product/productDTO';
 import { IProductRepository } from '@repositories/IProductRepository';
 
 import { AppError } from '@shared/errors/AppError';
@@ -13,7 +13,7 @@ export class ProductRepository implements IProductRepository {
         );
     }
 
-    create(product: IUpsertProductRequestDTO): Promise<Product> {
+    create(product: ICreateProductRequestDTO): Promise<Product> {
         const newProduct: Product = {
             ...product,
             location: undefined,

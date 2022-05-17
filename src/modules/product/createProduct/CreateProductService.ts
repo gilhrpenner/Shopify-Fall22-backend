@@ -5,13 +5,13 @@ import { autoInjectable } from 'tsyringe';
 import { AppError } from '@shared/errors/AppError';
 import { upsertProductValidation } from '@shared/validations/product.validation';
 
-import { IUpsertProductRequestDTO } from '../productDTO';
+import { ICreateProductRequestDTO } from '../productDTO';
 
 @autoInjectable()
 export class CreateProductService {
     constructor(private productRepository: ProductRepository) {}
 
-    async execute(payload: IUpsertProductRequestDTO): Promise<Product> {
+    async execute(payload: ICreateProductRequestDTO): Promise<Product> {
         const { error: invalidInput } = upsertProductValidation(payload);
         if (invalidInput) {
             throw new AppError(invalidInput.details[0].message, 422);

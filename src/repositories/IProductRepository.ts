@@ -1,8 +1,8 @@
 import { IProductLocation, Product } from '@entities/Product';
-import { IUpsertProductRequestDTO } from '@modules/product/productDTO';
+import { ICreateProductRequestDTO } from '@modules/product/productDTO';
 
 export interface IProductRepository {
-    create(product: IUpsertProductRequestDTO): Promise<Product>;
+    create(product: ICreateProductRequestDTO): Promise<Product>;
     updateQuantity(barcode: string, quantity: number): Promise<Product>;
     delete(barcode: string): Promise<void>;
 
