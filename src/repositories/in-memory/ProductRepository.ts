@@ -1,5 +1,8 @@
 import { IProductLocation, Product } from '@entities/Product';
-import { IUpsertProductRequestDTO } from '@modules/product/productDTO';
+import {
+    IDeletedProductDTO,
+    IUpsertProductRequestDTO,
+} from '@modules/product/productDTO';
 import { IProductRepository } from '@repositories/IProductRepository';
 
 import { AppError } from '@shared/errors/AppError';
@@ -51,15 +54,18 @@ export class ProductRepository implements IProductRepository {
         return Promise.resolve(memoryProducts[productIndex]);
     }
 
-    delete(barcode: string): Promise<void> {
-        const productIndex = this.findProductIndex(barcode);
-        if (productIndex === -1) {
-            return Promise.reject(new AppError('Product not found'));
-        }
+    delete(barcodes: string[]): Promise<IDeletedProductDTO> {
+        let productsDeleted = 0;
 
-        memoryProducts.splice(productIndex, 1);
+        barcodes.forEach((barcode) => {
+            const productIndex = this.findProductIndex(barcode);
+            if (productIndex !== -1) {
+                memoryProducts.splice(productIndex, 1);
+                productsDeleted += 1;
+            }
+        });
 
-        return Promise.resolve();
+        return Promise.resolve({ productsDeleted });
     }
 
     assignLocation(
