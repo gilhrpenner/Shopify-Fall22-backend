@@ -1,4 +1,4 @@
-import { IProductEntity } from '@entities/Product';
+import { IProductEntity, IProductLocation } from '@entities/Product';
 
 export type IUpsertProductRequestDTO = Omit<IProductEntity, 'location'>;
 
@@ -13,4 +13,9 @@ export interface IDeleteProductRequestDTO {
 
 export interface IDeletedProductDTO {
     productsDeleted: number;
+}
+
+export interface IAssignWarehouseRequestDTO {
+    barcode: string;
+    location: IProductLocation;
 }

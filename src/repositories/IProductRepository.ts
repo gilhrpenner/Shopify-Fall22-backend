@@ -1,5 +1,6 @@
-import { IProductLocation, Product } from '@entities/Product';
+import { Product } from '@entities/Product';
 import {
+    IAssignWarehouseRequestDTO,
     IDeletedProductDTO,
     IUpsertProductRequestDTO,
 } from '@modules/product/productDTO';
@@ -10,10 +11,7 @@ export interface IProductRepository {
     update(product: IUpsertProductRequestDTO): Promise<Product>;
     delete(barcodes: string[]): Promise<IDeletedProductDTO>;
 
-    assignLocation(
-        barcode: string,
-        location: IProductLocation
-    ): Promise<Product>;
+    assignLocation(payload: IAssignWarehouseRequestDTO): Promise<Product>;
     findByBarcode(barcode: string): Promise<Product>;
     findAll(): Promise<Product[]>;
     findByName(name: string): Promise<Product[]>;

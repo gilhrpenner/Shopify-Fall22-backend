@@ -1,3 +1,4 @@
+import { assignWarehouseController } from '@modules/product/assignWarehouse';
 import { createProductController } from '@modules/product/createProduct';
 import { deleteProductController } from '@modules/product/deleteProduct';
 import { updateProductController } from '@modules/product/updateProduct';
@@ -20,6 +21,10 @@ productRoutes.patch('/', async (req, res) => {
 
 productRoutes.delete('/', async (req, res) => {
     return deleteProductController.handle(req, res);
+});
+
+productRoutes.patch('/location', async (req, res) => {
+    return assignWarehouseController.handle(req, res);
 });
 
 export { productRoutes };
