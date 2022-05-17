@@ -1,11 +1,11 @@
 import {
-    ICreateProductRequestDTO,
+    IUpsertProductRequestDTO,
     IUpdateProductQuantityRequestDTO,
 } from '@modules/product/productDTO';
 import Joi from 'joi';
 
 export const upsertProductValidation = (
-    payload: ICreateProductRequestDTO
+    payload: IUpsertProductRequestDTO
 ): Joi.ValidationResult => {
     const schema = Joi.object({
         barcode: Joi.string().required(),

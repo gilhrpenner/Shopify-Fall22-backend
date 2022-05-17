@@ -200,4 +200,27 @@ describe('Test product repository in memory', () => {
         expect(productFound).toHaveLength(1);
         expect(productFound[0].description).toBe(firstProduct.description);
     });
+
+    it('should update a product', async () => {
+        const updatedProduct = await productRepository.update({
+            ...secondProduct,
+            name: 'Updated product',
+            description: 'Updated description',
+        });
+
+        expect(updatedProduct).toBeInstanceOf(Object);
+        expect(updatedProduct.name).toBe('Updated product');
+        expect(updatedProduct.description).toBe('Updated description');
+    });
+
+    it('should not update a product, product does not exists', async () => {
+        await expect(
+            productRepository.update({
+                ...secondProduct,
+                name: 'Updated product',
+                description: 'Updated description',
+                barcode: 'id-does-not-exists',
+            })
+        ).rejects.toEqual(new AppError('Product not found'));
+    });
 });

@@ -1,5 +1,5 @@
 import { IProductLocation, Product } from '@entities/Product';
-import { ICreateProductRequestDTO } from '@modules/product/productDTO';
+import { IUpsertProductRequestDTO } from '@modules/product/productDTO';
 import { IProductRepository } from '@repositories/IProductRepository';
 
 import { AppError } from '@shared/errors/AppError';
@@ -13,7 +13,7 @@ export class ProductRepository implements IProductRepository {
         );
     }
 
-    create(product: ICreateProductRequestDTO): Promise<Product> {
+    create(product: IUpsertProductRequestDTO): Promise<Product> {
         const newProduct: Product = {
             ...product,
             location: undefined,
@@ -32,6 +32,20 @@ export class ProductRepository implements IProductRepository {
         memoryProducts[productIndex] = {
             ...memoryProducts[productIndex],
             quantity,
+        };
+
+        return Promise.resolve(memoryProducts[productIndex]);
+    }
+
+    update(product: IUpsertProductRequestDTO): Promise<Product> {
+        const productIndex = this.findProductIndex(product.barcode);
+        if (productIndex === -1) {
+            return Promise.reject(new AppError('Product not found'));
+        }
+
+        memoryProducts[productIndex] = {
+            ...memoryProducts[productIndex],
+            ...product,
         };
 
         return Promise.resolve(memoryProducts[productIndex]);
