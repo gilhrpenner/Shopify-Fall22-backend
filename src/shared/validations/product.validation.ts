@@ -2,6 +2,7 @@ import {
     IUpsertProductRequestDTO,
     IUpdateProductQuantityRequestDTO,
     IDeleteProductRequestDTO,
+    IAssignWarehouseRequestDTO,
 } from '@modules/product/productDTO';
 import Joi from 'joi';
 
@@ -35,6 +36,21 @@ export const deleteProductValidation = (
 ): Joi.ValidationResult => {
     const schema = Joi.object({
         barcodes: Joi.array().items(Joi.string()).required(),
+    });
+
+    return schema.validate(payload);
+};
+
+export const assignWarehouseValidation = (
+    payload: IAssignWarehouseRequestDTO
+): Joi.ValidationResult => {
+    const schema = Joi.object({
+        barcode: Joi.string().required(),
+        location: Joi.object({
+            warehouseId: Joi.string().required(),
+            aisle: Joi.number().required(),
+            bin: Joi.number().required(),
+        }).required(),
     });
 
     return schema.validate(payload);

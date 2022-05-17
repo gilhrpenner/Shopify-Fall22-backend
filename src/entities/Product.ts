@@ -1,7 +1,7 @@
 export interface IProductLocation {
     warehouseId: string;
     aisle: number;
-    row: number;
+    bin: number;
 }
 
 export interface IProductEntity {

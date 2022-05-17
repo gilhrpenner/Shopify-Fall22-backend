@@ -119,14 +119,14 @@ describe('Test product repository in memory', () => {
     });
 
     it('should assign a location to a product', async () => {
-        const productUpdated = await productRepository.assignLocation(
-            firstProduct.barcode,
-            {
+        const productUpdated = await productRepository.assignLocation({
+            barcode: firstProduct.barcode,
+            location: {
                 warehouseId: warehouseLocationOne.id,
                 aisle: 5,
-                row: 17,
-            }
-        );
+                bin: 17,
+            },
+        });
 
         expect(productUpdated).toBeInstanceOf(Object);
         expect(productUpdated.location).toBeInstanceOf(Object);
@@ -134,15 +134,18 @@ describe('Test product repository in memory', () => {
             warehouseLocationOne.id
         );
         expect(productUpdated.location.aisle).toBe(5);
-        expect(productUpdated.location.row).toBe(17);
+        expect(productUpdated.location.bin).toBe(17);
     });
 
     it('should not assign a location to a product, product does not exists', async () => {
         await expect(
-            productRepository.assignLocation('id-does-not-exists', {
-                warehouseId: warehouseLocationOne.id,
-                aisle: 5,
-                row: 17,
+            productRepository.assignLocation({
+                barcode: 'id-does-not-exists',
+                location: {
+                    warehouseId: warehouseLocationOne.id,
+                    aisle: 5,
+                    bin: 17,
+                },
             })
         ).rejects.toEqual(new AppError('Product not found'));
     });
@@ -171,17 +174,23 @@ describe('Test product repository in memory', () => {
     it('should find all products by warehouse', async () => {
         // create a third product just to have different lengths
         await productRepository.create(thirdProduct);
-        await productRepository.assignLocation(thirdProduct.barcode, {
-            warehouseId: warehouseLocationTwo.id,
-            aisle: 5,
-            row: 17,
+        await productRepository.assignLocation({
+            barcode: thirdProduct.barcode,
+            location: {
+                warehouseId: warehouseLocationTwo.id,
+                aisle: 5,
+                bin: 17,
+            },
         });
 
         // second product hasn't been assigned a location, so we do now
-        await productRepository.assignLocation(secondProduct.barcode, {
-            warehouseId: warehouseLocationTwo.id,
-            aisle: 5,
-            row: 17,
+        await productRepository.assignLocation({
+            barcode: secondProduct.barcode,
+            location: {
+                warehouseId: warehouseLocationTwo.id,
+                aisle: 5,
+                bin: 17,
+            },
         });
 
         const warehouseOne = await productRepository.findByWarehouseId(

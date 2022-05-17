@@ -1,5 +1,6 @@
-import { IProductLocation, Product } from '@entities/Product';
+import { Product } from '@entities/Product';
 import {
+    IAssignWarehouseRequestDTO,
     IDeletedProductDTO,
     IUpsertProductRequestDTO,
 } from '@modules/product/productDTO';
@@ -68,10 +69,9 @@ export class ProductRepository implements IProductRepository {
         return Promise.resolve({ productsDeleted });
     }
 
-    assignLocation(
-        barcode: string,
-        location: IProductLocation
-    ): Promise<Product> {
+    assignLocation(payload: IAssignWarehouseRequestDTO): Promise<Product> {
+        const { barcode, location } = payload;
+
         const productIndex = this.findProductIndex(barcode);
         if (productIndex === -1) {
             return Promise.reject(new AppError('Product not found'));
