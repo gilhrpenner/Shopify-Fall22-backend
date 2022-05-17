@@ -8,7 +8,7 @@ import { upsertProductValidation } from '@shared/validations/product.validation'
 import { IUpsertProductRequestDTO } from '../productDTO';
 
 @autoInjectable()
-export class CreateProductService {
+export class UpdateProductService {
     constructor(private productRepository: ProductRepository) {}
 
     async execute(payload: IUpsertProductRequestDTO): Promise<Product> {
@@ -20,10 +20,10 @@ export class CreateProductService {
         const existingProduct = await this.productRepository.findByBarcode(
             payload.barcode
         );
-        if (existingProduct) {
-            throw new AppError('Product already exists');
+        if (!existingProduct) {
+            throw new AppError('Product does not exist');
         }
 
-        return this.productRepository.create(payload);
+        return this.productRepository.update(payload);
     }
 }
