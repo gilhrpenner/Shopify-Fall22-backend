@@ -1,8 +1,8 @@
-.warehouses-wrapper {
+.table-wrapper {
     margin-top: 20px;
 }
 
-.warehouses-wrapper__header {
+.table-wrapper__header {
     display: flex;
     padding: 10px;
     justify-content: space-between;
@@ -11,7 +11,7 @@
     border-radius: 4px 4px 0 0;
 }
 
-.warehouses-wrapper__header--title {
+.table-wrapper__header--title {
     display: flex;
     align-items: center;
 
@@ -19,7 +19,7 @@
     font-weight: bold;
 }
 
-.warehouses-wrapper__body {
+.table-wrapper__body {
     padding: 10px;
 
     border: 1px solid #e8e8e8;

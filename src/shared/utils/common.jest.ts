@@ -65,3 +65,19 @@ export const thirdProduct = {
     description: 'Zero sugar per bottle, I love the pink flavour',
     quantity: 2500,
 };
+
+export const fourthProduct = {
+    barcode: '1234567890126',
+    sku: 'WPG15896',
+    name: 'Sneakers 52g',
+    description: 'I believe to be the best chocolate in the whole world!',
+    quantity: 55000,
+};
+
+export const fifthProduct = {
+    barcode: '1234567890127',
+    sku: 'YYC15896',
+    name: 'Scrabble board game',
+    description: 'Even the most united families can fight over this game lol',
+    quantity: 1000,
+};
