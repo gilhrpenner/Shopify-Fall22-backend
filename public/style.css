@@ -1,0 +1,29 @@
+.warehouses-wrapper {
+    margin-top: 20px;
+}
+
+.warehouses-wrapper__header {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+
+    background-color: #e8e8e8;
+    border-radius: 4px 4px 0 0;
+}
+
+.warehouses-wrapper__header--title {
+    display: flex;
+    align-items: center;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.warehouses-wrapper__body {
+    padding: 10px;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 0 0 4px 4px;
+
+}
+

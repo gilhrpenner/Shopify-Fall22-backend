@@ -15,8 +15,8 @@ export const upsertWarehouseValidation = (
             postalCode: Joi.string().required(),
         }).required(),
         aisles: Joi.object({
-            rows: Joi.number().required(),
-            binsPerRow: Joi.number().required(),
+            rows: Joi.number().min(1).required(),
+            binsPerRow: Joi.number().min(1).required(),
         }).required(),
     });
 

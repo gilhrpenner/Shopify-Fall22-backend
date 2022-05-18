@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 
 import { AppError } from '@shared/errors/AppError';
 
-const memoryWarehouses: IWarehouseEntity[] = [];
+export const memoryWarehouses: IWarehouseEntity[] = [];
 
 export class WarehouseRepository implements IWarehouseRepository {
     create(warehouse: IUpsertWarehouseRequestDTO): Promise<Warehouse> {
