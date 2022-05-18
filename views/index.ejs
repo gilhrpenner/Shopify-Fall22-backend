@@ -19,69 +19,10 @@
                 </a>
             </div>
             <div class="col-12">
-                <div class="warehouses-wrapper">
-                    <div class="warehouses-wrapper__header">
-                        <div class="warehouses-wrapper__header--title">
-                            Warehouses
-                        </div>
-                        <div class="warehouses-wrapper__header--action">
-                            <button
-                                type="button"
-                                class="btn btn-success"
-                                name="openWarehouseModal"
-                                data-toggle="create"
-                            >Create</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="warehouses-wrapper__body">
-                    <% if (warehouses.length < 1) { %>
-                        <div class="alert alert-warning" role="alert">
-                            You don't have any warehouses. Please create one so you can assign a location to your products.
-                        </div>
-                    <% } else { %>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">City</th>
-                                    <th scope="col" style="text-align: center; width: 300px;">Total bins</th>
-                                    <th scope="col" style="text-align: center; width: 200px;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% warehouses.forEach((warehouse, index) => { %>
-                                    <tr>
-                                        <th scope="row"><%= index + 1 %></th>
-                                        <td><%= warehouse.name %></td>
-                                        <td><%= warehouse.address.city %></td>
-                                        <td style="text-align: center;"><%= warehouse.aisles.rows * warehouse.aisles.binsPerRow %></td>
-                                        <td style="text-align: center;">
-                                            <button
-                                                name="openWarehouseModal"
-                                                data-toggle="edit"
-                                                warehouse-data="<%= JSON.stringify(warehouse) %>"
-                                                type="button"
-                                                class="btn btn-info"
-                                            >Edit</button>
-                                            <button
-                                                name="deleteWarehouseButton"
-                                                warehouse-id="<%= warehouse.id %>"
-                                                type="button"
-                                                class="btn btn-danger"
-                                            >Delete</button>
-                                        </td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                    <% } %>
-                </div>
+                <%- include('./partials/warehouses'); %>
             </div>
-            <div class="col">
-                One of three columns
+            <div class="col-12">
+                <%- include('./partials/products'); %>
             </div>
         </div>
     </div>
@@ -100,86 +41,7 @@
         </div>
     </div>
 
-    <!-- Create warehouse modal -->
-    <div
-        class="modal fade"
-        id="warehouseModal"
-        tabindex="-1"
-        aria-labelledby="warehouseModalLabel"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-    >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="warehouseModalLabel">Create new warehouse</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="warehouseNameField" placeholder="Winnipeg Warehouse and Distribution Centre">
-                        <label for="warehouseNameField">Warehouse name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="warehouseStreetField" placeholder="123 Main St">
-                        <label for="warehouseStreetField">Street</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="warehouseCityField" placeholder="Winnipeg">
-                        <label for="warehouseCityField">City</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" aria-label="Default select example" id="warehouseProvinceField">
-                                    <option value="AB">Alberta</option>
-                                    <option value="BC">British Columbia</option>
-                                    <option value="MB" selected>Manitoba</option>
-                                    <option value="NB">New Brunswick</option>
-                                    <option value="NL">Newfoundland and Labrador</option>
-                                    <option value="NS">Nova Scotia</option>
-                                    <option value="ON">Ontario</option>
-                                    <option value="PE">Prince Edward Island</option>
-                                    <option value="QC">Quebec</option>
-                                    <option value="SK">Saskatchewan</option>
-                                    <option value="NT">Northwest Territories</option>
-                                    <option value="NU">Nunavut</option>
-                                    <option value="YT">Yukon</option>
-                                </select>
-                                <label for="warehouseProvinceField">Province</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="warehousePostalCodeField" placeholder="R0L 0R0">
-                                <label for="warehousePostalCodeField">Postal code</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div>
-                        <div>
-                            How many aisles this warehouse have?
-                            <input type="number" class="form-control" id="warehouseAisleField" placeholder="30">
-                        </div>
-                        <div>
-                            How many bins each aisle have?
-                            <input type="number" class="form-control" id="warehouseBinField" placeholder="50">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="createWarehouseButton">Create</button>
-                    <button type="button" class="btn btn-info" warehouse-id="empty" id="editWarehouseButton">Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="bootstrap.js"></script>
-    <script src="javascript.js"></script>
+    <script src="frontend.js"></script>
 </body>
 </html>

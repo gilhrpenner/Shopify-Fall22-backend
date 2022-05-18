@@ -142,3 +142,138 @@ deleteWarehouseBtn.forEach((btn) => {
         window.location.reload();
     });
 });
+
+// Open product modal
+const openProductModalBtn = document.querySelectorAll(
+    'button[name="openProductModal"]'
+);
+openProductModalBtn.forEach((btn) => {
+    btn.addEventListener('click', function () {
+        const type = btn.getAttribute('data-toggle');
+        const myModal = new bootstrap.Modal(
+            document.getElementById('productModal')
+        );
+
+        if (type === 'add') {
+            document.getElementById('productModalLabel').innerHTML =
+                'Add new product';
+
+            document.getElementById('addProductButton').style.display = 'block';
+            document.getElementById('editProductButton').style.display = 'none';
+
+            document.getElementById('productBarcodeField').value = '';
+            document.getElementById('productBarcodeField').disabled = false;
+            document.getElementById('productSKUField').value = '';
+            document.getElementById('productNameField').value = '';
+            document.getElementById('productDescriptionField').value = '';
+            document.getElementById('productQuantityField').value = '';
+        } else {
+            document.getElementById('productModalLabel').innerHTML =
+                'Edit product';
+
+            document.getElementById('addProductButton').style.display = 'none';
+            document.getElementById('editProductButton').style.display =
+                'block';
+
+            const data = JSON.parse(btn.getAttribute('product-data'));
+            document.getElementById('productBarcodeField').value = data.barcode;
+            document.getElementById('productBarcodeField').disabled = true;
+            document.getElementById('productSKUField').value = data.sku;
+            document.getElementById('productNameField').value = data.name;
+            document.getElementById('productDescriptionField').value =
+                data.description;
+            document.getElementById('productQuantityField').value =
+                data.quantity;
+
+            document
+                .getElementById('editProductButton')
+                .setAttribute('product-id', data.barcode);
+        }
+
+        myModal.show();
+    });
+});
+
+// Add new product event
+const addProductButtonBtn = document.getElementById('addProductButton');
+addProductButtonBtn.addEventListener('click', async function () {
+    const result = await apiRequest('/product/', 'POST', {
+        barcode: document.getElementById('productBarcodeField').value,
+        sku: document.getElementById('productSKUField').value,
+        name: document.getElementById('productNameField').value,
+        description: document.getElementById('productDescriptionField').value,
+        quantity: document.getElementById('productQuantityField').value,
+    });
+
+    if (result.status === 200) {
+        window.location.reload();
+    } else {
+        showErrorToast(result.response.message);
+    }
+});
+
+// Edit product event
+const editProductBtn = document.getElementById('editProductButton');
+editProductBtn.addEventListener('click', async function () {
+    const result = await apiRequest('/product/', 'PATCH', {
+        barcode: document.getElementById('productBarcodeField').value,
+        sku: document.getElementById('productSKUField').value,
+        name: document.getElementById('productNameField').value,
+        description: document.getElementById('productDescriptionField').value,
+        quantity: document.getElementById('productQuantityField').value,
+    });
+
+    if (result.status === 200) {
+        window.location.reload();
+    } else {
+        showErrorToast(result.response.message);
+    }
+});
+
+// Delete many products event
+let productsToDelete = [];
+const deleteProductsCheckboxes = document.querySelectorAll(
+    '[name="productDeleteCheckbox"]'
+);
+
+function toggleProductAction(checkbox) {
+    const productId = checkbox.getAttribute('value');
+    const isChecked = checkbox.checked;
+
+    if (isChecked) {
+        productsToDelete.push(productId);
+    } else {
+        productsToDelete = productsToDelete.filter(
+            (product) => product !== productId
+        );
+    }
+
+    if (productsToDelete.length > 0) {
+        document.getElementById('deleteProductsButton').disabled = false;
+        document.getElementById(
+            'deleteProductsButton'
+        ).innerHTML = `Delete (${productsToDelete.length})`;
+    } else {
+        document.getElementById('deleteProductsButton').disabled = true;
+        document.getElementById('deleteProductsButton').innerHTML = 'Delete';
+    }
+}
+
+deleteProductsCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+        toggleProductAction(checkbox);
+    });
+});
+
+const deleteProductsBtn = document.getElementById('deleteProductsButton');
+deleteProductsBtn.addEventListener('click', async function () {
+    const result = await apiRequest('/product/', 'DELETE', {
+        barcodes: productsToDelete,
+    });
+
+    if (result.status === 200) {
+        window.location.reload();
+    } else {
+        showErrorToast(result.response.message);
+    }
+});
