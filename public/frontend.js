@@ -277,3 +277,44 @@ deleteProductsBtn.addEventListener('click', async function () {
         showErrorToast(result.response.message);
     }
 });
+
+// Assign product to warehouse event
+const assignBtns = document.querySelectorAll('[name="assignButton"]');
+assignBtns.forEach((btn) => {
+    btn.addEventListener('click', function () {
+        const productId = btn.getAttribute('product-id');
+        document
+            .getElementById('assignWarehouseButton')
+            .setAttribute('product-id', productId);
+
+        const myModal = new bootstrap.Modal(
+            document.getElementById('assignWarehouseModal')
+        );
+
+        myModal.show();
+    });
+});
+
+const assignWarehouseBtn = document.getElementById('assignWarehouseButton');
+assignWarehouseBtn.addEventListener('click', async function () {
+    const barcode = document
+        .getElementById('assignWarehouseButton')
+        .getAttribute('product-id');
+
+    const warehouseId = document.getElementById('assignWarehouseSelect').value;
+
+    const result = await apiRequest('/product/location', 'PATCH', {
+        barcode,
+        location: {
+            warehouseId,
+            aisle: document.getElementById('assignWarehouseAisleField').value,
+            bin: document.getElementById('assignWarehouseBinField').value,
+        },
+    });
+
+    if (result.status === 200) {
+        window.location.reload();
+    } else {
+        showErrorToast(result.response.message);
+    }
+});

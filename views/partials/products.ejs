@@ -21,7 +21,6 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Barcode</th>
-                        <th scope="col">SKU</th>
                         <th scope="col">QTY</th>
                         <th scope="col" style="text-align: center;">Warehouse</th>
                         <th scope="col" style="text-align: center; width: 90px;">Edit</th>
@@ -41,16 +40,29 @@
                                 <%= product.barcode %>
                             </td>
                             <td>
-                                <%= product.sku %>
-                            </td>
-                            <td>
                                 <%= product.quantity %>
                             </td>
                             <td style="text-align: center;">
                                 <% if (product.location === undefined) { %>
-                                    <button type="button" class="btn btn-success">Assign</button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-success"
+                                        product-id="<%= product.barcode %>"
+                                        name="assignButton"
+                                    >Assign</button>
                                 <% } else { %>
-                                    <%= product.location.warehouse.name %>
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        product-id="<%= product.barcode %>"
+                                        name="assignButton"
+                                    >
+                                        <%=
+                                            warehouses.find((warehouse) => {
+                                                return warehouse.id === product.location.warehouseId
+                                            }).name
+                                        %>
+                                    </button>
                                 <% } %>
                             </td>
                             <td style="text-align: center;">
@@ -118,6 +130,45 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" id="addProductButton">Add</button>
                 <button type="button" class="btn btn-info" product-id="empty" id="editProductButton">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- warehouse assignment modal -->
+<div class="modal fade" id="assignWarehouseModal" tabindex="-1" aria-labelledby="assignWarehouseModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignWarehouseModalLabel">Assign product to a warehouse</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <select class="form-select" aria-label="Available warehouses" id="assignWarehouseSelect">
+                        <% warehouses.forEach((warehouse)=> { %>
+                            <option value="<%= warehouse.id %>"><%= warehouse.name %></option>
+                        <% }); %>
+                    </select>
+                    <label for="assignWarehouseSelect">Warehouse</label>
+                </div>
+                <hr>
+                <p>
+                    Each warehouse have different number of aisles and bins per aisle,
+                    please indicate where you'd like to store your product.
+                </p>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="assignWarehouseAisleField" placeholder="5" min="1" max="999">
+                    <label for="productQuantityField">Aisle</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="assignWarehouseBinField" placeholder="5" min="1" max="999">
+                    <label for="productQuantityField">Bin</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" product-id="empty" id="assignWarehouseButton">Assign</button>
             </div>
         </div>
     </div>
