@@ -11,6 +11,6 @@ export class DeleteWarehouseController {
         const { id } = req.params;
         await this.deleteWarehouseService.execute(id);
 
-        return res.sendStatus(200);
+        return res.json({ message: 'Warehouse deleted' });
     }
 }

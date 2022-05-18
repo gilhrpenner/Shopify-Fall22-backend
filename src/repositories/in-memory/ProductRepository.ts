@@ -8,7 +8,7 @@ import { IProductRepository } from '@repositories/IProductRepository';
 
 import { AppError } from '@shared/errors/AppError';
 
-const memoryProducts: Product[] = [];
+export const memoryProducts: Product[] = [];
 
 export class ProductRepository implements IProductRepository {
     private findProductIndex(barcode: string): number {

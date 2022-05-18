@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shopify F22 Challenge</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-12">
+                <h2>Shopify Backend Challenge - Fall 2022</h2>
+                <a href="https://github.com/gilhrpenner/Shopify-F22-backend" target="_blank" class="link-dark text-decoration-none">
+                    <i class="bi bi-github"></i> GitHub Repository
+                </a>
+            </div>
+            <div class="col-12">
+                <div class="warehouses-wrapper">
+                    <div class="warehouses-wrapper__header">
+                        <div class="warehouses-wrapper__header--title">
+                            Warehouses
+                        </div>
+                        <div class="warehouses-wrapper__header--action">
+                            <button
+                                type="button"
+                                class="btn btn-success"
+                                name="openWarehouseModal"
+                                data-toggle="create"
+                            >Create</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warehouses-wrapper__body">
+                    <% if (warehouses.length < 1) { %>
+                        <div class="alert alert-warning" role="alert">
+                            You don't have any warehouses. Please create one so you can assign a location to your products.
+                        </div>
+                    <% } else { %>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col" style="text-align: center; width: 300px;">Total bins</th>
+                                    <th scope="col" style="text-align: center; width: 200px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% warehouses.forEach((warehouse, index) => { %>
+                                    <tr>
+                                        <th scope="row"><%= index + 1 %></th>
+                                        <td><%= warehouse.name %></td>
+                                        <td><%= warehouse.address.city %></td>
+                                        <td style="text-align: center;"><%= warehouse.aisles.rows * warehouse.aisles.binsPerRow %></td>
+                                        <td style="text-align: center;">
+                                            <button
+                                                name="openWarehouseModal"
+                                                data-toggle="edit"
+                                                warehouse-data="<%= JSON.stringify(warehouse) %>"
+                                                type="button"
+                                                class="btn btn-info"
+                                            >Edit</button>
+                                            <button
+                                                name="deleteWarehouseButton"
+                                                warehouse-id="<%= warehouse.id %>"
+                                                type="button"
+                                                class="btn btn-danger"
+                                            >Delete</button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col">
+                One of three columns
+            </div>
+        </div>
+    </div>
+
+    <!-- Error toast -->
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+        <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto text-danger">Error!</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div id="errorToastBody" class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
+
+    <!-- Create warehouse modal -->
+    <div
+        class="modal fade"
+        id="warehouseModal"
+        tabindex="-1"
+        aria-labelledby="warehouseModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="warehouseModalLabel">Create new warehouse</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="warehouseNameField" placeholder="Winnipeg Warehouse and Distribution Centre">
+                        <label for="warehouseNameField">Warehouse name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="warehouseStreetField" placeholder="123 Main St">
+                        <label for="warehouseStreetField">Street</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="warehouseCityField" placeholder="Winnipeg">
+                        <label for="warehouseCityField">City</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" aria-label="Default select example" id="warehouseProvinceField">
+                                    <option value="AB">Alberta</option>
+                                    <option value="BC">British Columbia</option>
+                                    <option value="MB" selected>Manitoba</option>
+                                    <option value="NB">New Brunswick</option>
+                                    <option value="NL">Newfoundland and Labrador</option>
+                                    <option value="NS">Nova Scotia</option>
+                                    <option value="ON">Ontario</option>
+                                    <option value="PE">Prince Edward Island</option>
+                                    <option value="QC">Quebec</option>
+                                    <option value="SK">Saskatchewan</option>
+                                    <option value="NT">Northwest Territories</option>
+                                    <option value="NU">Nunavut</option>
+                                    <option value="YT">Yukon</option>
+                                </select>
+                                <label for="warehouseProvinceField">Province</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="warehousePostalCodeField" placeholder="R0L 0R0">
+                                <label for="warehousePostalCodeField">Postal code</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div>
+                        <div>
+                            How many aisles this warehouse have?
+                            <input type="number" class="form-control" id="warehouseAisleField" placeholder="30">
+                        </div>
+                        <div>
+                            How many bins each aisle have?
+                            <input type="number" class="form-control" id="warehouseBinField" placeholder="50">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="createWarehouseButton">Create</button>
+                    <button type="button" class="btn btn-info" warehouse-id="empty" id="editWarehouseButton">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="bootstrap.js"></script>
+    <script src="javascript.js"></script>
+</body>
+</html>
