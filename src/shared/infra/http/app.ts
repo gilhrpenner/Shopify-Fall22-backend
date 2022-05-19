@@ -1,7 +1,6 @@
 import 'express-async-errors';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
-import helmet from 'helmet';
 import hpp from 'hpp';
 import { createServer } from 'http';
 
@@ -14,7 +13,6 @@ const httpServer = createServer(app);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-app.use(helmet());
 app.use(hpp());
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());

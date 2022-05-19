@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { httpServer } from '@shared/infra/http/app';
 import { seedProducts, seedWarehouses } from '@shared/utils/seed';
 
