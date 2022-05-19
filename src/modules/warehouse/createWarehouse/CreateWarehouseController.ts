@@ -9,6 +9,6 @@ export class CreateWarehouseController {
 
     async handle(req: Request, res: Response): Promise<Response> {
         const response = await this.createWarehouseService.execute(req.body);
-        return res.json(response).status(201);
+        return res.status(201).json(response);
     }
 }

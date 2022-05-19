@@ -15,6 +15,134 @@
         }
     ],
     "paths": {
+        "/warehouse/": {
+            "post": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Create a new warehouse",
+                "description": "This endpoint allows you to create a new warehouse. For the scope of this project there is no authentication and therefore all warehouses belong to the same entity.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/IUpsertWarehouseRequestDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Warehouse created",
+                        "schema": {
+                            "$ref": "#/components/schemas/Warehouse"
+                        }
+                    },
+                    "422": {
+                        "description": "Input is invalid or missing a required field",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/warehouse/{warehouseId}": {
+            "delete": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Delete a warehouse",
+                "description": "This endpoint allows you to delete a warehouse. Once you delete a warehouse all products assigned to that location will be unassigned.",
+                "parameters": [
+                    {
+                        "name": "warehouseId",
+                        "in": "path",
+                        "description": "The id of the warehouse to delete",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/UUIDSchema"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse deleted"
+                    },
+                    "404": {
+                        "description": "Warehouse not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Update a warehouse",
+                "description": "This endpoint allows you to update a warehouse. Everything but the warehouse id is updated.",
+                "parameters": [
+                    {
+                        "name": "warehouseId",
+                        "in": "path",
+                        "description": "The id of the warehouse to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/UUIDSchema"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/IUpsertWarehouseRequestDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Warehouse updated successfully",
+                        "schema": {
+                            "$ref": "#/components/schemas/Warehouse"
+                        }
+                    },
+                    "404": {
+                        "description": "Warehouse not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Input is invalid or missing a required field",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/product/": {
             "post": {
                 "tags": [
@@ -492,6 +620,11 @@
                         "description": "The error message"
                     }
                 }
+            },
+            "UUIDSchema": {
+                "type": "string",
+                "format": "uuidv4",
+                "example": "629b6b4b-9816-45bd-a9da-f711df5a2d19"
             }
         }
     }
