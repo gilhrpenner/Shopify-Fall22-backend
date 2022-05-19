@@ -6,6 +6,7 @@
     "author": "Gil Penner <gilhrpenner@gmail.com>",
     "license": "MIT",
     "scripts": {
+        "replit": "yarn build && yarn start",
         "start": "node dist/shared/infra/http/server.js",
         "build": "yarn install && babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
         "dev": "tsnd -r dotenv/config -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn --exit-child src/shared/infra/http/server.ts",
