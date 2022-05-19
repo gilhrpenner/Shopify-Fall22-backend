@@ -34,6 +34,4 @@ export default {
 
     // The glob patterns Jest uses to detect test files
     testMatch: ['**/**/*.spec.ts'],
-
-    setupFiles: ['dotenv/config'],
 };
