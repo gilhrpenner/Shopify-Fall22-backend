@@ -1,7 +1,7 @@
 import { Product } from '@entities/Product';
 import {
     IAssignWarehouseRequestDTO,
-    IDeletedProductDTO,
+    IDeletedProductResponseDTO,
     IUpsertProductRequestDTO,
 } from '@modules/product/productDTO';
 
@@ -9,7 +9,7 @@ export interface IProductRepository {
     create(product: IUpsertProductRequestDTO): Promise<Product>;
     updateQuantity(barcode: string, quantity: number): Promise<Product>;
     update(product: IUpsertProductRequestDTO): Promise<Product>;
-    delete(barcodes: string[]): Promise<IDeletedProductDTO>;
+    delete(barcodes: string[]): Promise<IDeletedProductResponseDTO>;
 
     assignLocation(payload: IAssignWarehouseRequestDTO): Promise<Product>;
     findByBarcode(barcode: string): Promise<Product>;

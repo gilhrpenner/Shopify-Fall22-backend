@@ -11,7 +11,7 @@ export interface IDeleteProductRequestDTO {
     barcodes: string[];
 }
 
-export interface IDeletedProductDTO {
+export interface IDeletedProductResponseDTO {
     productsDeleted: number;
 }
 

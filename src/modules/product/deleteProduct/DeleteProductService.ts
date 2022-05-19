@@ -4,7 +4,10 @@ import { autoInjectable } from 'tsyringe';
 import { AppError } from '@shared/errors/AppError';
 import { deleteProductValidation } from '@shared/validations/product.validation';
 
-import { IDeletedProductDTO, IDeleteProductRequestDTO } from '../productDTO';
+import {
+    IDeletedProductResponseDTO,
+    IDeleteProductRequestDTO,
+} from '../productDTO';
 
 @autoInjectable()
 export class DeleteProductService {
@@ -12,7 +15,7 @@ export class DeleteProductService {
 
     async execute(
         payload: IDeleteProductRequestDTO
-    ): Promise<IDeletedProductDTO> {
+    ): Promise<IDeletedProductResponseDTO> {
         const { error: invalidInput } = deleteProductValidation(payload);
         if (invalidInput) {
             throw new AppError(invalidInput.details[0].message, 422);

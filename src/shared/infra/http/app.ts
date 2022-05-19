@@ -3,9 +3,12 @@ import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import hpp from 'hpp';
 import { createServer } from 'http';
+import swaggerUi from 'swagger-ui-express';
 
 import { AppError } from '@shared/errors/AppError';
 import { router } from '@shared/infra/http/routes';
+
+import swaggerConfig from './swagger.json';
 
 const app = express();
 const httpServer = createServer(app);
@@ -16,6 +19,12 @@ app.use(express.static('public'));
 app.use(hpp());
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
+
+app.use(
+    '/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerConfig, { customSiteTitle: 'Shopify F22 Challenge' })
+);
 
 app.use(router);
 

@@ -1,7 +1,7 @@
 import { Product } from '@entities/Product';
 import {
     IAssignWarehouseRequestDTO,
-    IDeletedProductDTO,
+    IDeletedProductResponseDTO,
     IUpsertProductRequestDTO,
 } from '@modules/product/productDTO';
 import { IProductRepository } from '@repositories/IProductRepository';
@@ -55,7 +55,7 @@ export class ProductRepository implements IProductRepository {
         return Promise.resolve(memoryProducts[productIndex]);
     }
 
-    delete(barcodes: string[]): Promise<IDeletedProductDTO> {
+    delete(barcodes: string[]): Promise<IDeletedProductResponseDTO> {
         let productsDeleted = 0;
 
         barcodes.forEach((barcode) => {
