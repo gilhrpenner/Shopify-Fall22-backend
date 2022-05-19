@@ -264,4 +264,41 @@ describe('Test product repository in memory', () => {
             })
         ).rejects.toEqual(new AppError('Product not found'));
     });
+
+    it('should unassign locations that were deleted', async () => {
+        const warehouseId = warehouseLocationOne.id;
+
+        // Assign 2 products to the same warehouse
+        await productRepository.assignLocation({
+            barcode: firstProduct.barcode,
+            location: {
+                warehouseId,
+                aisle: 5,
+                bin: 17,
+            },
+        });
+
+        await productRepository.assignLocation({
+            barcode: secondProduct.barcode,
+            location: {
+                warehouseId,
+                aisle: 5,
+                bin: 17,
+            },
+        });
+
+        const products = await productRepository.findByWarehouseId(warehouseId);
+        expect(products).toBeInstanceOf(Array);
+        expect(products).toHaveLength(2);
+
+        // Unassign location of all products in the warehouse
+        await productRepository.unassignLocation(warehouseId);
+
+        const productsAfterUnassign = await productRepository.findByWarehouseId(
+            warehouseId
+        );
+
+        expect(productsAfterUnassign).toBeInstanceOf(Array);
+        expect(productsAfterUnassign).toHaveLength(0);
+    });
 });

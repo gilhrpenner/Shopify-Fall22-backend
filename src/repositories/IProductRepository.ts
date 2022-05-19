@@ -17,4 +17,5 @@ export interface IProductRepository {
     findByName(name: string): Promise<Product[]>;
     findByDescription(description: string): Promise<Product[]>;
     findByWarehouseId(warehouseId: string): Promise<Product[]>;
+    unassignLocation(warehouseId: string): Promise<void>;
 }
