@@ -118,9 +118,11 @@ export class ProductRepository implements IProductRepository {
     }
 
     findByWarehouseId(warehouseId: string): Promise<Product[]> {
-        const products = memoryProducts.filter(
-            (product) => product.location?.warehouseId === warehouseId
-        );
+        const products = memoryProducts.filter((product) => {
+            return (
+                product.location && product.location.warehouseId === warehouseId
+            );
+        });
 
         return Promise.resolve(products);
     }
