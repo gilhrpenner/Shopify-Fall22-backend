@@ -13,6 +13,6 @@ export class UpdateProductQuantityController {
         const response = await this.updateProductQuantityService.execute(
             req.body
         );
-        return res.json(response);
+        return res.status(200).json(response);
     }
 }

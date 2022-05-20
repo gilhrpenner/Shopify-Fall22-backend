@@ -16,6 +16,6 @@ export class DeleteWarehouseController {
         await this.deleteWarehouseService.execute(id);
         await this.removeProductWarehouseService.execute(id);
 
-        return res.json({ message: 'Warehouse deleted' });
+        return res.status(200).json({ message: 'Warehouse deleted' });
     }
 }
