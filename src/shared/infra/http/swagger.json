@@ -16,6 +16,28 @@
     ],
     "paths": {
         "/warehouse/": {
+            "get": {
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Get all warehouses",
+                "description": "This endpoint allows you to get all available warehouses.",
+                "responses": {
+                    "200": {
+                        "description": "Warehouses found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Warehouse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Warehouse"
@@ -144,6 +166,28 @@
             }
         },
         "/product/": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get all products",
+                "description": "This endpoint allows you to get all products available.",
+                "responses": {
+                    "200": {
+                        "description": "Products found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Product"

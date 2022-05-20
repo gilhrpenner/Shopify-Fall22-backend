@@ -1,11 +1,16 @@
 import { assignWarehouseController } from '@modules/product/assignWarehouse';
 import { createProductController } from '@modules/product/createProduct';
 import { deleteProductController } from '@modules/product/deleteProduct';
+import { getProductsController } from '@modules/product/getProducts';
 import { updateProductController } from '@modules/product/updateProduct';
 import { updateProductQuantityController } from '@modules/product/updateProductQuantity';
 import { Router } from 'express';
 
 const productRoutes = Router();
+
+productRoutes.get('/', async (req, res) => {
+    return getProductsController.handle(req, res);
+});
 
 productRoutes.post('/', async (req, res) => {
     return createProductController.handle(req, res);
