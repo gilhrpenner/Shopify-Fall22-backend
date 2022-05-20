@@ -3,7 +3,7 @@
 Welcome to my submission for the fall 2022 backend challenge! 👋
 
 You can view the demo app on [Replit](https://replit.com/@gilhrpenner/Shopify-F22-backend)\
-Check the API documentation [here](https://github.com/gilhrpenner/Shopify-F22-backend/wiki/API-Documentation) or when running the app on `/docs` to use swagger-ui for testing 🙌
+Check the API documentation [here](https://github.com/gilhrpenner/Shopify-F22-backend/wiki/API-Documentation) or [here](https://shopify-f22-backend.gilhrpenner.repl.co/docs/) to use swagger-ui for testing 🙌
 
 - [Shopify - Fall 2022 Backend Challenge](#shopify---fall-2022-backend-challenge)
 - [System requirements](#system-requirements)
@@ -18,6 +18,9 @@ Check the API documentation [here](https://github.com/gilhrpenner/Shopify-F22-ba
 - [Nodejs](https://nodejs.org/en/) >= 16 installed,
 - [Yarn](https://yarnpkg.com/), but you can also use `npm`.
 
+# Replit
+- The testing sometimes may timeout because replit is super slow but everything should run properly on
+- This application was designed with Node >=18 in mind but Replit can only install up to Node 16
 # Description
 A detailed description of the challenge can be viewed [here](https://docs.google.com/document/d/1PoxpoaJymXmFB3iCMhGL6js-ibht7GO_DkCF2elCySU/edit).
 
@@ -79,3 +82,5 @@ To put it in a very simple way, tests should the foundation of any project and h
 There are a lot of things that could be improved, such as persisting data with a database instead of just persisting it in memory. But I think, overall, this code has little tech debt being the vast majority of them relying on dependencies but it is an inevitable evil.
 
 For features, I think it would be pretty cool to finish implementing the aisles and bins feature, currently we can assign several products to the same aisle/bin while in real life we would probably want each bin to have only on product. This would allow us to have a map of the warehouses.
+
+A batch system where a user can create many products and assign them to locations in one go would also be very helpful.
