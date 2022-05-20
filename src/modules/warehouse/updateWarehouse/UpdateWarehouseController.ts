@@ -14,6 +14,6 @@ export class UpdateWarehouseController {
             req.body
         );
 
-        return res.json(response);
+        return res.status(200).json(response);
     }
 }

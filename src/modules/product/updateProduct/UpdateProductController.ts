@@ -9,6 +9,6 @@ export class UpdateProductController {
 
     async handle(req: Request, res: Response): Promise<Response> {
         const response = await this.updateProductService.execute(req.body);
-        return res.json(response);
+        return res.status(200).json(response);
     }
 }
