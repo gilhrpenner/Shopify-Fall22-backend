@@ -2,7 +2,7 @@
 
 Welcome to my submission for the fall 2022 backend challenge! 👋
 
-You can view the demo app on [Replit](https://replit.com/@gilhrpenner/Shopify-F22-backend)\
+You can view the demo app on [Replit](https://replit.com/@gilhrpenner/Shopify-Fall22-backend)\
 Check the API documentation [here](https://github.com/gilhrpenner/Shopify-F22-backend/wiki/API-Documentation) or [here](https://shopify-f22-backend.gilhrpenner.repl.co/docs/) to use swagger-ui for testing 🙌
 
 - [Shopify - Fall 2022 Backend Challenge](#shopify---fall-2022-backend-challenge)
